@@ -10,7 +10,7 @@ def count_words(filename):
   except FileNotFoundError:
     msg = "Sorry, the file " + filename + " does not exist."
     print(msg)
-  #依赖于 try 代码块成功执行的代码都应放到 else 代码块中
+  #依赖于try代码块成功执行的代码都应放到else代码块中
   else:
     #计算文件大致包含多少个单词
     words = contents.split()
