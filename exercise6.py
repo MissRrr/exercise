@@ -100,7 +100,7 @@ def print_list(students_list,list_title):
       
       
 def variable_is_Empty(variable):
-  '''判断变量是否为空'''
+  '''判断字符串是否为空，是否全为空格'''
   return (variable == '' or variable.strip() == '' or len(variable) == 0 or variable.isspace())
 
 def main():
