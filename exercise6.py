@@ -15,6 +15,7 @@ def init():
   #不存在创表
   if not is_exists:
     QUERY_CURS.execute('CREATE TABLE students (id INTEGER PRIMARY KEY,name TEXT,age INTEGER,sex TEXT)')
+    print('init')
     add_new('Jane Li',12,'F')
     add_new('Jan Tong',11,'M')
     add_new('Mandy Jin',12,'F')
@@ -29,9 +30,13 @@ def add_new(name,age,sex):
   if variable_is_Empty(name) or variable_is_Empty(age) or variable_is_Empty(sex):
     print('this add is invalid.')
     return
-  else:
-    QUERY_CURS.execute('''INSERT INTO students (name,age,sex) VALUES (?,?,?)''',(name,age,sex))
-    print('add a new student successfully.')
+  try:
+    age = int(age)
+  except Exception:
+    print('please enter the right age.')
+    return
+  QUERY_CURS.execute('''INSERT INTO students (name,age,sex) VALUES (?,?,?)''',(name,age,sex))
+  print('add a new student successfully.')
 
 
 def update_student(name,age,sex,student_id):
@@ -42,14 +47,19 @@ def update_student(name,age,sex,student_id):
   if not variable_is_Empty(name):  
     parameters.append(name.strip())
     sql += 'name = ? ,'
-  elif not variable_is_Empty(age):
-    parameters.append(int(age))
+  if not variable_is_Empty(age):
+    try:
+      parameters.append(int(age))
+    except Exception:
+      print('please enter the right age.')
+      return
     sql += 'age = ? ,'
-  elif variable_is_Empty(sex):
+  if not variable_is_Empty(sex):
     parameters.append(sex.strip())
     sql += 'sex = ? ,'
-  else:
+  if variable_is_Empty(name) and variable_is_Empty(age) and variable_is_Empty(sex):
     sql = ''
+
   #判断三个参数是否都为空或者id为空
   if len(sql)==0:
     print('this update is invalid.')
@@ -58,7 +68,7 @@ def update_student(name,age,sex,student_id):
   else:
     parameters.append(student_id)
     sql = sql.strip(',') + ' where id = ? '
-    #print(sql)
+    print(sql)
     QUERY_CURS.execute(sql,parameters)
     #DB.commit()
     print('this update is successful.') 
@@ -101,7 +111,10 @@ def print_list(students_list,list_title):
       
 def variable_is_Empty(variable):
   '''判断字符串是否为空，是否全为空格'''
-  return (variable == '' or variable.strip() == '' or len(variable) == 0 or variable.isspace())
+  if type(variable) == str:
+    return (variable == '' or variable.strip() == '' or len(variable) == 0 or variable.isspace())
+  else:
+    return variable is None
 
 def main():
   
@@ -136,7 +149,10 @@ def main():
       elif input_number is '3':
         name = input('please enter the name whose you want to search:')
         students_list = search_student_by_name(name.strip())
-        print_list(students_list, list_title)
+        if len(students_list) == 0:
+          print('can\'t find any information by this name.')
+        else:
+          print_list(students_list, list_title)
         break
       elif input_number is '4':
         student_id = input('please enter the id whose you want to delete:')
@@ -144,7 +160,10 @@ def main():
         break
       elif input_number is '5':
         students_list = get_students_list()
-        print_list(students_list, list_title)
+        if len(students_list) == 0:
+          print('List is empty.')
+        else:
+          print_list(students_list, list_title)
         break
       else:
         print('please enter a right number')
