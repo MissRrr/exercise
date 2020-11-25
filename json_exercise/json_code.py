@@ -134,7 +134,7 @@ class JsonHandle():
       self.load_dict[json_key].update(new_dict)
       print(self.load_dict[json_key])
     elif json_key == 'HostGroup' or json_key == 'DiskGroup':
-      if self.self.variable_is_Empty(args[0]) or self.variable_is_Empty(args[1]):
+      if self.variable_is_Empty(args[0]) or self.variable_is_Empty(args[1]):
         print('your input is invalid')
         return
       if args[0] in self.load_dict[json_key]:
