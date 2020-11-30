@@ -22,28 +22,28 @@ class MY_GUI():
       self.src_filename = None
       
       #创建文件下拉菜单，添加到顶层菜单窗口
-      filemenu=Menu(self.top_menu,tearoff=False)
+      file_menu=Menu(self.top_menu,tearoff=False)
       #添加下拉内容：
-      filemenu.add_command(label="新建",command=self.new_file)
-      filemenu.add_command(label="打开",command=self.open_file)
-      filemenu.add_command(label="保存",command=self.save_file)
-      filemenu.add_command(label="另存为",command=self.other_save_file)
-      filemenu.add_separator()
-      filemenu.add_command(label="退出",command=quit)
+      file_menu.add_command(label="新建",command=self.new_file)
+      file_menu.add_command(label="打开",command=self.open_file)
+      file_menu.add_command(label="保存",command=self.save_file)
+      file_menu.add_command(label="另存为",command=self.other_save_file)
+      file_menu.add_separator()
+      file_menu.add_command(label="退出",command=quit)
       #添加文件分层菜单项到顶层菜单窗口
-      self.top_menu.add_cascade(label="文件", menu=filemenu)
+      self.top_menu.add_cascade(label="文件", menu=file_menu)
       
       #创建编辑菜单
-      editmenu=Menu(self.top_menu,tearoff=False)
+      edit_menu=Menu(self.top_menu,tearoff=False)
       #创建编辑下拉内容
-      editmenu.add_command(label="撤销",command=self.callback)
-      editmenu.add_command(label="剪切",command=self.cut)
-      editmenu.add_command(label="复制",command=self.copy)
-      editmenu.add_command(label="粘贴",command=self.paste)
-      editmenu.add_separator()
-      editmenu.add_command(label="全选",command=self.select_all)
+      edit_menu.add_command(label="撤销",command=self.callback)
+      edit_menu.add_command(label="剪切",command=self.cut)
+      edit_menu.add_command(label="复制",command=self.copy)
+      edit_menu.add_command(label="粘贴",command=self.paste)
+      edit_menu.add_separator()
+      edit_menu.add_command(label="全选",command=self.select_all)
       #添加编辑分层菜单项到顶层菜单窗口
-      self.top_menu.add_cascade(label="编辑",menu=editmenu)
+      self.top_menu.add_cascade(label="编辑",menu=edit_menu)
       
       #右键菜单
       self.pop_up_menu=Menu(self.init_window,tearoff=False)
@@ -55,8 +55,8 @@ class MY_GUI():
       self.pop_up_menu.add_command(label="复制",command=self.copy)
       self.pop_up_menu.add_command(label="粘贴",command=self.paste)
       #将右键菜单显示函数绑定到Text上
-      #<Button-3>鼠标右键
-      self.init_data_text.bind("<Button-3>",self.popup)
+      #<Button-3>鼠标右键,但是mac好像读不出来右键，用<Button-2>鼠标中键（触摸板双指双击可显示）
+      self.init_data_text.bind("<Button-2>",self.popup)
       
       self.init_window.config(menu=self.top_menu)
       self.init_data_text.pack()
